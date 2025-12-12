@@ -5,13 +5,13 @@ import com.aayush.factory.ParkingSpotFactory;
 import java.util.*;
 
 public class Floor {
-    private  int count =0;
+    private int count = 0;
     private final String floorId;
     private final Map<String, ParkingSpot> spotById;
-    private final Map<SpotType, LinkedHashSet<String>> availableSpots;
+    private final Map<SpotType, Set<String>> availableSpots;
     private final Set<String> occupiedSpots;
 
-  public  Floor(String floorId) {
+    public Floor(String floorId) {
         spotById = new HashMap<>();
         availableSpots = new HashMap<>();
         occupiedSpots = new HashSet<>();
@@ -21,15 +21,15 @@ public class Floor {
     public void addSpot(SpotType type) {
 
 //            if( type == null) throw exception
-            String spotId = floorId +"-"+ String.valueOf(++count);
-            if (!availableSpots.containsKey(type)) {
-                availableSpots.put(type, new LinkedHashSet<>());
-            }
-            if (!spotById.containsKey(spotId)) {
-                ParkingSpot spot = ParkingSpotFactory.createSpot(spotId,type);
-                spotById.put(spot.getSpotId(), spot);
-                availableSpots.get(type).addLast(spotId);
-            }
+        String spotId = floorId + "-" + String.valueOf(++count);
+        if (!availableSpots.containsKey(type)) {
+            availableSpots.put(type, new LinkedHashSet<>());
+        }
+        if (!spotById.containsKey(spotId)) {
+            ParkingSpot spot = ParkingSpotFactory.createSpot(spotId, type);
+            spotById.put(spot.getSpotId(), spot);
+            availableSpots.get(type).add(spotId);
+        }
 
 
     }
@@ -63,7 +63,7 @@ public class Floor {
             synchronized (this) {
                 if (occupiedSpots.contains(spotId)) {
                     occupiedSpots.remove(spotId);
-                    availableSpots.get(toFree.getSpotType()).addLast(spotId);
+                    availableSpots.get(toFree.getSpotType()).add(spotId);
                 } else {
                     // throw custom exception
                     System.out.println("Spot not occupied");
@@ -81,7 +81,7 @@ public class Floor {
         return this.floorId;
     }
 
-    public Map<SpotType, LinkedHashSet<String>> getAvailableSpots() {
+    public Map<SpotType, Set<String>> getAvailableSpots() {
         return availableSpots;
     }
 

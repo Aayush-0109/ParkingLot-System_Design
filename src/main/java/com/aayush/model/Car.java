@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Car extends Vehicle{
     public Car(String licencePlate){
-        super(licencePlate , Set.of(SpotType.MEDIUM ,SpotType.LARGE ),"Car");
+        super(licencePlate , Set.of(SpotType.MEDIUM ,SpotType.LARGE ),VehicleType.CAR);
     }
 
 }

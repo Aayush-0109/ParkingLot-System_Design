@@ -8,11 +8,15 @@ public class Ticket {
     private final String licencePlate;
     private final String spotId;
     private final LocalDateTime entryTime;
-    public Ticket(String licencePlate , String spotId){
+    private final VehicleType vehicleType;
+    private final SpotType spotType;
+    public Ticket(String licencePlate,VehicleType vehicleType , String spotId ,SpotType spotType ){
         ticketId = UUID.randomUUID();
         entryTime = LocalDateTime.now();
         this.licencePlate = licencePlate;
         this.spotId =spotId;
+        this.vehicleType =vehicleType;
+        this.spotType = spotType;
     }
 
     public String getLicencePlate() {
@@ -29,5 +33,13 @@ public class Ticket {
 
     public LocalDateTime getEntryTime() {
         return entryTime;
+    }
+
+    public SpotType getSpotType() {
+        return spotType;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
     }
 }

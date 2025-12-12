@@ -4,6 +4,6 @@ import java.util.HashSet;
 
 public class Bike extends Vehicle{
     public Bike(String licencePlate){
-        super(licencePlate , Set.of(SpotType.SMALL,SpotType.MEDIUM ,SpotType.LARGE ),"Bike");
+        super(licencePlate , Set.of(SpotType.SMALL,SpotType.MEDIUM ,SpotType.LARGE ),VehicleType.BIKE);
     }
 }
