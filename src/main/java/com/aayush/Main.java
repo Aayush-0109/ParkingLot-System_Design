@@ -1,5 +1,6 @@
 package com.aayush;
 
+import com.aayush.dto.ExitResponse;
 import com.aayush.dto.PaymentReceipt;
 import com.aayush.dto.SpotRateTable;
 import com.aayush.dto.VehicleRateTable;
@@ -27,7 +28,7 @@ public class Main {
         BillingService billingService = new BillingService();
         spotFinder.setStrategy(new NearestSpotStrategy());
         paymentService.setStrategy(new UPIPaymentStrategy());
-        billingService.setStrategy(new CombinedBillingStrategy(vehicleRateTable,spotRateTable,10));
+        billingService.setStrategy(new CombinedBillingStrategy(vehicleRateTable, spotRateTable, 10));
 
         Floor f1 = FloorFactory.createFloor("f1");
         Floor f2 = FloorFactory.createFloor("f2");
@@ -37,21 +38,24 @@ public class Main {
         f2.addSpot(SpotType.MEDIUM);
         f2.addSpot(SpotType.MEDIUM);
         f2.addSpot(SpotType.LARGE);
-        ParkingLot parkingLot =new ParkingLot(List.of(f1,f2),spotFinder,billingService,paymentService);
+        ParkingLot parkingLot = new ParkingLot(List.of(f1, f2), spotFinder, billingService, paymentService);
         Vehicle car1 = new Car("ka-0101234");
         Vehicle car2 = new Car("la-0201234");
         Vehicle truck1 = new Truck("la-01-00999");
         Vehicle truck2 = new Truck("la-08-1234");
         try {
-          Ticket ticket1 =   parkingLot.parkVehicle(car1);
-          Ticket ticket2 = parkingLot.parkVehicle(truck1);
+            Ticket ticket1 = parkingLot.parkVehicle(car1);
+            Ticket ticket2 = parkingLot.parkVehicle(truck1);
 
-          System.out.println(ticket1.getSpotId());
-          System.out.println(ticket2.getSpotId());
+            System.out.println(ticket1.getSpotId());
+            System.out.println(ticket2.getSpotId());
+            ExitResponse response1 = parkingLot.exitVehicle(ticket1.getTicketId());
+            System.out.println(response1.getPaymentReceipt().getAmount() +
+                    " " + response1.getPaymentReceipt().getPaymentMethod() +
+                    " " + response1.getPaymentReceipt().getPaymentStatus());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
 
 
     }
