@@ -37,8 +37,8 @@ public class Floor {
     public void markOccupied(String spotId) {
         try {
 
-//            if(spotId==null) throw exception
-//            if(!spotById.containsKey(spotId)) throw exception
+            if (spotId == null) throw new IllegalArgumentException("spotId could not be null");
+            if (!spotById.containsKey(spotId)) throw new IllegalArgumentException("Invalid spotId");
             ParkingSpot toOccupy = spotById.get(spotId);
             synchronized (this) {
                 if (!occupiedSpots.contains(spotId)) {
@@ -50,7 +50,7 @@ public class Floor {
             }
         } catch (RuntimeException e) {
             // handle exception
-//            throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
     }
